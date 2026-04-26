@@ -1,0 +1,26 @@
+name: Production Deployment
+
+on:
+  push:
+    branches: [ main ]  # Trigger only on merges to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Application
+        run: echo "hello world!"
+
+  deploy:
+    name: Deploy to Production
+    needs: build
+    runs-on: ubuntu-latest
+    # This key links the job to the environment settings in GitHub
+    environment: 
+      name: production
+      url: https://myapp.com   
+    steps:
+      - name: Deploy to Cloud Provider
+        run: |
+          echo "Deploying to production using secret: ${{ secrets.PROD_API_KEY }}"
+         
